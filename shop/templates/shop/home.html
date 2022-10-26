@@ -1,8 +1,21 @@
 {% extends 'base.html' %}
 {% block content %}
 
-{% for product in products %}
-    {{ product.name }}
-{% endfor %}
+<div class="row row-cols-1 row-cols-lg-5 row-cols-md-2 g-4">
+    {% for product in products %}
+    <div class="col">
+      <div class="card h-100">
+        <img src="/media/{{ product.main_image }}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title"><a href="{% url 'product-info' product.id %}" class="text-decoration-none text-dark">{{ product.name }}</a></h5>
+          <p class="card-text">
+            <span>&#2547; {{ product.price|floatformat:2 }}</span>
+            <span><s>&#2547; {{ product.old_price|floatformat:2 }}</s></span>
+          </p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
 
 {% endblock content %}
