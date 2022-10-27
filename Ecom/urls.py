@@ -8,6 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('account.urls')),
     path('', include('shop.urls')),
+    path('order/', include('order.urls')),
 ]
 
 # for media files 

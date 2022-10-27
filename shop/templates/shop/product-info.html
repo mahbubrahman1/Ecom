@@ -4,20 +4,17 @@
 <div class="row">
     <div class="col-lg-5">
         <div>
-            <img src="/media/{{ product.main_image }}" alt="" width="100%">
+            <img src="/media/{{ product.main_image }}" alt="" width="80%">
         </div>
     </div>
     <div class="col-lg-7">
         <div>
             <h3>{{ product.name }}</h3>
             <p><span>BDT &#2547;</span>{{ product.price }}</p>
-            <dl>
-                <dt>Description</dt>
-                <dd>
-                    <p>{{ product.detail_text }}</p>
-                </dd>
-            </dl>
+            <p><strong>Description:</strong></p>
+            <p>{{ product.detail_text|linebreaks }}</p>
         </div>
+        <a href=""><i class="fa-regular fa-cart-shopping"></i> Add to Cart</a>
     </div>
 </div>
 
