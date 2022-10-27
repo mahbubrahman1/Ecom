@@ -38,7 +38,7 @@ def cart_add(request, pk):
 # view cart
 def cart(request):
     carts = Cart.objects.filter(user=request.user, purchased=False)
-    orders = Cart.objects.filter(user=request.user, purchased=False)
+    orders = Order.objects.filter(user=request.user, ordered=False)
 
     if carts.exists() and orders.exists():
         order = orders[0]
