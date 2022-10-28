@@ -1,3 +1,4 @@
+from math import prod
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -50,6 +51,7 @@ def cart(request):
         return redirect('home')
 
 
+# remove product from cart 
 @login_required
 def cart_remove(request, pk):
     product = get_object_or_404(Product, id=pk)
@@ -72,4 +74,64 @@ def cart_remove(request, pk):
 
     else:
         messages.info(request, "Don't have an active order.")
+        return redirect('home')
+
+    
+# increase item quantity
+@login_required
+def increase(request, pk):
+    product = get_object_or_404(Product, id=pk)
+    order_qs = Order.objects.filter(user=request.user, ordered=False)
+
+    if order_qs.exists():
+        order = order_qs[0]
+
+        if order.order_items.filter(item=product).exists():
+            order_item = Cart.objects.filter(item=product, user=request.user, purchased=False)
+            order_item = order_item[0]
+
+            if order_item.quantity >= 1:
+                order_item.quantity += 1
+                order_item.save()
+                return redirect('cart')
+
+        else:
+            messages.info(request, "This product is not in your cart")
+            return redirect('home')
+        
+    else:
+        messages.info(request, "You don't have an active order.")
+        return redirect('home')
+
+
+# decrease item quantity
+@login_required
+def decrease(request, pk):
+    product = get_object_or_404(Product, id=pk)
+    order_qs = Order.objects.filter(user=request.user, ordered=False)
+
+    if order_qs.exists():
+        order = order_qs[0]
+        
+        if order.order_items.filter(item=product).exists():
+            order_item = Cart.objects.filter(item=product, user=request.user, purchased=False)
+            order_item = order_item[0]
+
+            if order_item.quantity > 1:
+                order_item.quantity -= 1
+                order_item.save()
+                return redirect('cart')
+
+            else:
+                order.order_items.remove(order_item)
+                order_item.delete()
+                messages.warning(request, 'Product has been removed.')
+                return redirect("cart")
+
+        else:
+            messages.info(request, "This product is not in your cart")
+            return redirect('home')
+            
+    else:
+        messages.info(request, "You don't have an active order.")
         return redirect('home')
