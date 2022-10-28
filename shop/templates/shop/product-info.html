@@ -14,7 +14,7 @@
             <p><strong>Description:</strong></p>
             <p>{{ product.detail_text|linebreaks }}</p>
         </div>
-        <a href="{% url 'add_cart' product.id %}"><i class="fa-regular fa-cart-shopping"></i> Add to Cart</a>
+        <a href="{% url 'add_cart' product.id %}" class="btn btn-outline-primary text-uppercase"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
     </div>
 </div>
 
