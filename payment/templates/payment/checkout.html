@@ -32,7 +32,7 @@
       </div>
     </div>
     {% if saved_address.is_fully_filled %}
-      <a href="" class="btn btn-warning mt-2">Make Payment</a>
+      <a href="{% url 'payment' %}" class="btn btn-warning mt-2">Make Payment</a>
     {% else %}
       <div class="alert alert-info">
         <p>Please fill up all the information to make payment.</p>
