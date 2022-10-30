@@ -11,6 +11,7 @@ from .forms import BillingAddressForm
 from order.models import Order, Cart
 
 
+# checkout 
 @login_required
 def checkout(request):
     saved_address = BillingAddress.objects.get_or_create(user=request.user)
@@ -33,6 +34,7 @@ def checkout(request):
     return render(request, 'payment/checkout.html', context) 
 
 
+# pay 
 @login_required
 def payment(request):
     saved_address = BillingAddress.objects.get_or_create(user=request.user)
@@ -69,6 +71,7 @@ def payment(request):
     return redirect(response_data['GatewayPageURL'])
 
 
+# complete payment 
 @csrf_exempt
 def complete_payment(request):
     if request.method == 'POST' or request.method == 'post':
@@ -88,6 +91,7 @@ def complete_payment(request):
     return render(request, 'payment/complete-payment.html')
 
 
+# empty cart section
 @login_required
 def complete_purchase(request, val_id, tran_id):
     order_qs = Order.objects.filter(user=request.user, ordered=False)
@@ -105,6 +109,7 @@ def complete_purchase(request, val_id, tran_id):
     return HttpResponseRedirect(reverse('home'))
 
 
+# view customer orders
 @login_required
 def view_order(request):
     try:
